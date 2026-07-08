@@ -1,0 +1,47 @@
+services:
+  db:
+    image: mysql:9.7
+    environment:
+      MYSQL_ROOT_PASSWORD: "${DB_ROOT_PASSWORD:-root_password}"
+      MYSQL_DATABASE: "${DB_DATABASE:-todo_app}"
+      MYSQL_USER: "${DB_USERNAME:-user}"
+      MYSQL_PASSWORD: "${DB_PASSWORD:-password}"
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql-data:/var/lib/mysql
+    healthcheck:
+      test:
+        - CMD
+        - mysqladmin
+        - ping
+        - "-p${DB_ROOT_PASSWORD:-root_password}"
+      retries: 3
+      timeout: 5s
+  backend:
+    image: node:24
+    working_dir: /app/backend
+    volumes:
+      - ./backend:/app/backend
+    environment:
+      DB_HOST: db
+      DB_PORT: 3306
+      DB_DATABASE: "${DB_DATABASE:-todo_app}"
+      DB_USERNAME: "${DB_USERNAME:-user}"
+      DB_PASSWORD: "${DB_PASSWORD:-password}"
+    ports:
+      - "8080:8080"
+    depends_on:
+      db:
+        condition: service_healthy
+  frontend:
+    image: node:24
+    working_dir: /app/frontend
+    volumes:
+      - ./frontend:/app/frontend
+    ports:
+      - "3000:3000"
+    depends_on:
+      - backend
+volumes:
+  mysql-data:
