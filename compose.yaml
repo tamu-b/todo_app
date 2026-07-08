@@ -45,6 +45,7 @@ services:
       - ./frontend:/app/frontend
     ports:
       - "3000:3000"
+      - "6006:6006"
     tty: true
     depends_on:
       - backend
