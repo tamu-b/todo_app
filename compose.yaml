@@ -41,6 +41,7 @@ services:
       - ./frontend:/app/frontend
     ports:
       - "3000:3000"
+    tty: true
     depends_on:
       - backend
 volumes:
