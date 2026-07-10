@@ -29,6 +29,7 @@ services:
       PORT: 8080
       DB_HOST: db
       DB_PORT: 3306
+      DB_ROOT_PASSWORD: "${DB_ROOT_PASSWORD:-root_password}"
       DB_DATABASE: "${DB_DATABASE:-todo_app}"
       DB_USERNAME: "${DB_USERNAME:-user}"
       DB_PASSWORD: "${DB_PASSWORD:-password}"
