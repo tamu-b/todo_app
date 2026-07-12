@@ -3,7 +3,7 @@ CREATE TABLE `Todo` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
     `title` VARCHAR(191) NOT NULL,
     `description` VARCHAR(191) NOT NULL,
-    `due_date` TIMESTAMP NULL,
+    `due_date` DATE NULL,
 
     INDEX `Todo_due_date_idx`(`due_date`),
     PRIMARY KEY (`id`)

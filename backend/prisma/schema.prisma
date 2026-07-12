@@ -4,8 +4,9 @@
 // Get a free hosted Postgres database in seconds: `npx create-db`
 
 generator client {
-  provider = "prisma-client"
-  output   = "../src/generated/prisma"
+  provider     = "prisma-client"
+  output       = "../src/generated/prisma"
+  moduleFormat = "cjs"
 }
 
 datasource db {
@@ -16,7 +17,7 @@ model Todo {
   id          Int       @id @default(autoincrement())
   title       String
   description String
-  due_date    DateTime? @db.Timestamp()
+  due_date    DateTime? @db.Date
 
   @@index([due_date])
 }
