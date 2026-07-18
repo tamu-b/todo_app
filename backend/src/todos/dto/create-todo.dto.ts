@@ -1,26 +1,30 @@
-import { Expose, Type } from 'class-transformer';
+import { Expose, Transform, TransformFnParams } from 'class-transformer';
 import {
   IsDate,
-  IsNotEmpty,
   IsOptional,
   IsString,
-  MaxLength,
+  isString,
+  Length,
 } from 'class-validator';
 
+const validateIfString = (_object: object, value: unknown) => isString(value);
+
 export class CreateTodoDto {
+  @Length(1, 191, { validateIf: validateIfString })
   @IsString()
-  @IsNotEmpty()
-  @MaxLength(191)
   title!: string;
 
+  @Length(1, 191, { validateIf: validateIfString })
   @IsString()
-  @IsNotEmpty()
-  @MaxLength(191)
   description!: string;
 
   @Expose({ name: 'due_date' })
-  @IsOptional()
-  @Type(() => Date)
+  @Transform(({ value }: TransformFnParams) =>
+    value === null || value === undefined
+      ? undefined
+      : new Date(value as string | number | Date),
+  )
   @IsDate()
+  @IsOptional()
   dueDate?: Date;
 }
