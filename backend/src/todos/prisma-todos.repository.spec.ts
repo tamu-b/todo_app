@@ -1,9 +1,9 @@
+import { NotFoundError } from '../common/errors/not-found.error';
 import createPrismaMock from 'prisma-mock/client';
 import * as dmmf from '../generated/dmmf';
 import { Prisma, PrismaClient } from '../generated/prisma/client';
 import { PrismaTodosRepository } from './prisma-todos.repository';
 import { PrismaService } from '../prisma/prisma.service';
-import { PrismaErrorCode } from '../prisma/prisma-error-codes';
 
 describe('PrismaTodosRepository', () => {
   let prisma: PrismaClient;
@@ -220,13 +220,13 @@ describe('PrismaTodosRepository', () => {
       });
     });
 
-    it('存在しないidを指定した場合はエラーを投げる', async () => {
+    it('存在しないidを指定した場合はNotFoundErrorを投げる', async () => {
       await expect(
         repository.update(999999, { title: 'updated' }),
-      ).rejects.toThrow(Prisma.PrismaClientKnownRequestError);
+      ).rejects.toThrow(NotFoundError);
       await expect(
         repository.update(999999, { title: 'updated' }),
-      ).rejects.toMatchObject({ code: PrismaErrorCode.RecordNotFound });
+      ).rejects.toThrow('Todo with id 999999 not found');
     });
   });
 
@@ -247,13 +247,11 @@ describe('PrismaTodosRepository', () => {
       ).resolves.toBeNull();
     });
 
-    it('存在しないidを指定した場合はエラーを投げる', async () => {
+    it('存在しないidを指定した場合はNotFoundErrorを投げる', async () => {
+      await expect(repository.remove(999999)).rejects.toThrow(NotFoundError);
       await expect(repository.remove(999999)).rejects.toThrow(
-        Prisma.PrismaClientKnownRequestError,
+        'Todo with id 999999 not found',
       );
-      await expect(repository.remove(999999)).rejects.toMatchObject({
-        code: PrismaErrorCode.RecordNotFound,
-      });
     });
   });
 });
