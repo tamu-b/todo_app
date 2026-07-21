@@ -9,6 +9,11 @@ generator client {
   moduleFormat = "cjs"
 }
 
+generator dmmf {
+  provider = "prisma-mock"
+  output   = "../src/generated/dmmf.ts"
+}
+
 datasource db {
   provider = "mysql"
 }
