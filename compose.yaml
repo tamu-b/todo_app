@@ -6,10 +6,12 @@ services:
       MYSQL_DATABASE: "${DB_DATABASE:-todo_app}"
       MYSQL_USER: "${DB_USERNAME:-user}"
       MYSQL_PASSWORD: "${DB_PASSWORD:-password}"
+      DB_SHADOW_DATABASE: "${DB_SHADOW_DATABASE:-todo_app_shadow}"
     ports:
       - "3306:3306"
     volumes:
       - mysql-data:/var/lib/mysql
+      - ./db/init:/docker-entrypoint-initdb.d:ro
     healthcheck:
       test:
         - CMD
@@ -33,6 +35,7 @@ services:
       DB_DATABASE: "${DB_DATABASE:-todo_app}"
       DB_USERNAME: "${DB_USERNAME:-user}"
       DB_PASSWORD: "${DB_PASSWORD:-password}"
+      DB_SHADOW_DATABASE: "${DB_SHADOW_DATABASE:-todo_app_shadow}"
     ports:
       - "8080:8080"
     tty: true
