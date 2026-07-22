@@ -7,6 +7,7 @@ services:
       MYSQL_USER: "${DB_USERNAME:-user}"
       MYSQL_PASSWORD: "${DB_PASSWORD:-password}"
       DB_SHADOW_DATABASE: "${DB_SHADOW_DATABASE:-todo_app_shadow}"
+      DB_TEST_DATABASE: "${DB_TEST_DATABASE:-todo_app_test}"
     ports:
       - "3306:3306"
     volumes:
@@ -36,6 +37,7 @@ services:
       DB_USERNAME: "${DB_USERNAME:-user}"
       DB_PASSWORD: "${DB_PASSWORD:-password}"
       DB_SHADOW_DATABASE: "${DB_SHADOW_DATABASE:-todo_app_shadow}"
+      DB_TEST_DATABASE: "${DB_TEST_DATABASE:-todo_app_test}"
     ports:
       - "8080:8080"
     tty: true
