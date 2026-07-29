@@ -49,6 +49,8 @@ services:
     working_dir: /app/frontend
     volumes:
       - ./frontend:/app/frontend
+    environment:
+      BACKEND_URL: "http://backend:8080"
     ports:
       - "3000:3000"
       - "6006:6006"
