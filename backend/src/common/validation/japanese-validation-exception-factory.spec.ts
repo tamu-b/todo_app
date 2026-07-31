@@ -178,7 +178,7 @@ describe('japaneseValidationExceptionFactory', () => {
         payload: {
           title: 'title',
           description: 'description',
-          due_date: 'not-a-date',
+          dueDate: 'not-a-date',
         },
         expectedMessage: {
           dueDate: ['期限日は有効な日付を入力してください'],

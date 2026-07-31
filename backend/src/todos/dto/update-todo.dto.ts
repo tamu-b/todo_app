@@ -1,4 +1,4 @@
-import { Expose, Transform, TransformFnParams } from 'class-transformer';
+import { Transform, TransformFnParams } from 'class-transformer';
 import {
   IsDate,
   IsOptional,
@@ -18,7 +18,6 @@ export class UpdateTodoDto {
   @IsString()
   description!: string;
 
-  @Expose({ name: 'due_date' })
   @Transform(({ value }: TransformFnParams) =>
     value === null || value === undefined
       ? undefined

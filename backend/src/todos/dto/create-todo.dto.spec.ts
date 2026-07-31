@@ -7,13 +7,13 @@ describe('CreateTodoDto', () => {
   const validPayload = {
     title: 'title',
     description: 'description',
-    due_date: '2026-01-01',
+    dueDate: '2026-01-01',
   };
 
   describe('有効な入力の場合', () => {
     it.each([
       {
-        label: 'due_dateを指定した場合、dueDateにマッピングされる',
+        label: 'dueDateを指定した場合、dueDateにマッピングされる',
         payload: validPayload,
         expected: {
           title: 'title',
@@ -22,7 +22,7 @@ describe('CreateTodoDto', () => {
         },
       },
       {
-        label: 'due_dateがundefinedの場合、dueDateはundefinedになる',
+        label: 'dueDateがundefinedの場合、dueDateはundefinedになる',
         payload: { title: 'title', description: 'description' },
         expected: {
           title: 'title',
@@ -31,8 +31,8 @@ describe('CreateTodoDto', () => {
         },
       },
       {
-        label: 'due_dateがnullの場合、dueDateはundefinedになる',
-        payload: { title: 'title', description: 'description', due_date: null },
+        label: 'dueDateがnullの場合、dueDateはundefinedになる',
+        payload: { title: 'title', description: 'description', dueDate: null },
         expected: {
           title: 'title',
           description: 'description',
@@ -178,10 +178,10 @@ describe('CreateTodoDto', () => {
         errorConstraint: 'isLength',
       },
       {
-        label: 'due_dateが不正な日付文字列の場合は拒否する',
+        label: 'dueDateが不正な日付文字列の場合は拒否する',
         payload: {
           ...validPayload,
-          due_date: 'not-a-date',
+          dueDate: 'not-a-date',
         },
         errorProperty: 'dueDate',
         errorConstraint: 'isDate',
