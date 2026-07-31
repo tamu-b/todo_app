@@ -17,6 +17,8 @@ const eslintConfig = defineConfig([
     'out/**',
     'build/**',
     'next-env.d.ts',
+    // Auto-generated from docs/openapi.yaml via `npm run gen:api-types`.
+    'src/types/api-schema.d.ts',
   ]),
   ...storybook.configs['flat/recommended'],
   eslintPluginPrettierRecommended,
