@@ -205,47 +205,55 @@ describe('TodoのE2Eテスト', () => {
       {
         label: 'titleがundefinedの場合は拒否する',
         payload: { ...validPayload, title: undefined },
-        expectedMessage: 'titleは文字列で入力してください',
+        expectedMessage: { title: ['タイトルは文字列で入力してください'] },
       },
       {
         label: 'titleがnullの場合は拒否する',
         payload: { ...validPayload, title: null },
-        expectedMessage: 'titleは文字列で入力してください',
+        expectedMessage: { title: ['タイトルは文字列で入力してください'] },
       },
       {
         label: 'titleが空文字の場合は拒否する',
         payload: { ...validPayload, title: '' },
-        expectedMessage: 'titleは1文字以上で入力してください',
+        expectedMessage: { title: ['タイトルは1文字以上で入力してください'] },
       },
       {
         label: 'titleが191文字を超える文字列の場合は拒否する',
         payload: { ...validPayload, title: 'a'.repeat(192) },
-        expectedMessage: 'titleは191文字以内で入力してください',
+        expectedMessage: { title: ['タイトルは191文字以内で入力してください'] },
       },
       {
         label: 'descriptionがundefinedの場合は拒否する',
         payload: { ...validPayload, description: undefined },
-        expectedMessage: 'descriptionは文字列で入力してください',
+        expectedMessage: {
+          description: ['説明は文字列で入力してください'],
+        },
       },
       {
         label: 'descriptionがnullの場合は拒否する',
         payload: { ...validPayload, description: null },
-        expectedMessage: 'descriptionは文字列で入力してください',
+        expectedMessage: {
+          description: ['説明は文字列で入力してください'],
+        },
       },
       {
         label: 'descriptionが空文字の場合は拒否する',
         payload: { ...validPayload, description: '' },
-        expectedMessage: 'descriptionは1文字以上で入力してください',
+        expectedMessage: {
+          description: ['説明は1文字以上で入力してください'],
+        },
       },
       {
         label: 'descriptionが191文字を超える文字列の場合は拒否する',
         payload: { ...validPayload, description: 'a'.repeat(192) },
-        expectedMessage: 'descriptionは191文字以内で入力してください',
+        expectedMessage: {
+          description: ['説明は191文字以内で入力してください'],
+        },
       },
       {
         label: 'due_dateが不正な日付文字列の場合は拒否する',
         payload: { ...validPayload, due_date: 'not-a-date' },
-        expectedMessage: 'dueDateは有効な日付を入力してください',
+        expectedMessage: { dueDate: ['期限日は有効な日付を入力してください'] },
       },
     ])('$label', async ({ payload, expectedMessage }) => {
       const response = await request(app.getHttpServer())
@@ -254,8 +262,9 @@ describe('TodoのE2Eテスト', () => {
         .expect(400);
 
       expect(response.body).toEqual({
+        type: 'validation_error',
         statusCode: 400,
-        message: [expectedMessage],
+        message: expectedMessage,
         error: 'Bad Request',
       });
     });
@@ -384,47 +393,55 @@ describe('TodoのE2Eテスト', () => {
       {
         label: 'titleがundefinedの場合は拒否する',
         payload: { ...validPayload, title: undefined },
-        expectedMessage: 'titleは文字列で入力してください',
+        expectedMessage: { title: ['タイトルは文字列で入力してください'] },
       },
       {
         label: 'titleがnullの場合は拒否する',
         payload: { ...validPayload, title: null },
-        expectedMessage: 'titleは文字列で入力してください',
+        expectedMessage: { title: ['タイトルは文字列で入力してください'] },
       },
       {
         label: 'titleが空文字の場合は拒否する',
         payload: { ...validPayload, title: '' },
-        expectedMessage: 'titleは1文字以上で入力してください',
+        expectedMessage: { title: ['タイトルは1文字以上で入力してください'] },
       },
       {
         label: 'titleが191文字を超える文字列の場合は拒否する',
         payload: { ...validPayload, title: 'a'.repeat(192) },
-        expectedMessage: 'titleは191文字以内で入力してください',
+        expectedMessage: { title: ['タイトルは191文字以内で入力してください'] },
       },
       {
         label: 'descriptionがundefinedの場合は拒否する',
         payload: { ...validPayload, description: undefined },
-        expectedMessage: 'descriptionは文字列で入力してください',
+        expectedMessage: {
+          description: ['説明は文字列で入力してください'],
+        },
       },
       {
         label: 'descriptionがnullの場合は拒否する',
         payload: { ...validPayload, description: null },
-        expectedMessage: 'descriptionは文字列で入力してください',
+        expectedMessage: {
+          description: ['説明は文字列で入力してください'],
+        },
       },
       {
         label: 'descriptionが空文字の場合は拒否する',
         payload: { ...validPayload, description: '' },
-        expectedMessage: 'descriptionは1文字以上で入力してください',
+        expectedMessage: {
+          description: ['説明は1文字以上で入力してください'],
+        },
       },
       {
         label: 'descriptionが191文字を超える文字列の場合は拒否する',
         payload: { ...validPayload, description: 'a'.repeat(192) },
-        expectedMessage: 'descriptionは191文字以内で入力してください',
+        expectedMessage: {
+          description: ['説明は191文字以内で入力してください'],
+        },
       },
       {
         label: 'due_dateが不正な日付文字列の場合は拒否する',
         payload: { ...validPayload, due_date: 'not-a-date' },
-        expectedMessage: 'dueDateは有効な日付を入力してください',
+        expectedMessage: { dueDate: ['期限日は有効な日付を入力してください'] },
       },
     ])('$label', async ({ payload, expectedMessage }) => {
       const response = await request(app.getHttpServer())
@@ -433,8 +450,9 @@ describe('TodoのE2Eテスト', () => {
         .expect(400);
 
       expect(response.body).toEqual({
+        type: 'validation_error',
         statusCode: 400,
-        message: [expectedMessage],
+        message: expectedMessage,
         error: 'Bad Request',
       });
     });
@@ -452,6 +470,18 @@ describe('TodoのE2Eテスト', () => {
     });
   });
 
+  it('数値でないidでtodoを取得しようとすると400を返す', async () => {
+    const response = await request(app.getHttpServer())
+      .get('/todos/abc')
+      .expect(400);
+
+    expect(response.body).toEqual({
+      statusCode: 400,
+      message: 'Validation failed (numeric string is expected)',
+      error: 'Bad Request',
+    });
+  });
+
   it('存在しないtodoを更新しようとすると404を返す', async () => {
     const response = await request(app.getHttpServer())
       .put('/todos/999999')
@@ -465,6 +495,19 @@ describe('TodoのE2Eテスト', () => {
     });
   });
 
+  it('数値でないidでtodoを更新しようとすると400を返す', async () => {
+    const response = await request(app.getHttpServer())
+      .put('/todos/abc')
+      .send({ title: 'title', description: 'description' })
+      .expect(400);
+
+    expect(response.body).toEqual({
+      statusCode: 400,
+      message: 'Validation failed (numeric string is expected)',
+      error: 'Bad Request',
+    });
+  });
+
   it('存在しないtodoを削除しようとすると404を返す', async () => {
     const response = await request(app.getHttpServer())
       .delete('/todos/999999')
@@ -474,6 +517,18 @@ describe('TodoのE2Eテスト', () => {
       statusCode: 404,
       message: 'Todo with id 999999 not found',
       error: 'Not Found',
+    });
+  });
+
+  it('数値でないidでtodoを削除しようとすると400を返す', async () => {
+    const response = await request(app.getHttpServer())
+      .delete('/todos/abc')
+      .expect(400);
+
+    expect(response.body).toEqual({
+      statusCode: 400,
+      message: 'Validation failed (numeric string is expected)',
+      error: 'Bad Request',
     });
   });
 });
