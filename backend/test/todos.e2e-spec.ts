@@ -205,57 +205,58 @@ describe('TodoのE2Eテスト', () => {
       {
         label: 'titleがundefinedの場合は拒否する',
         payload: { ...validPayload, title: undefined },
-        expectedMessage: { title: ['タイトルは文字列で入力してください'] },
+        expectedProperty: 'title',
+        expectedMessage: 'タイトルは文字列で入力してください',
       },
       {
         label: 'titleがnullの場合は拒否する',
         payload: { ...validPayload, title: null },
-        expectedMessage: { title: ['タイトルは文字列で入力してください'] },
+        expectedProperty: 'title',
+        expectedMessage: 'タイトルは文字列で入力してください',
       },
       {
         label: 'titleが空文字の場合は拒否する',
         payload: { ...validPayload, title: '' },
-        expectedMessage: { title: ['タイトルは1文字以上で入力してください'] },
+        expectedProperty: 'title',
+        expectedMessage: 'タイトルは1文字以上で入力してください',
       },
       {
         label: 'titleが191文字を超える文字列の場合は拒否する',
         payload: { ...validPayload, title: 'a'.repeat(192) },
-        expectedMessage: { title: ['タイトルは191文字以内で入力してください'] },
+        expectedProperty: 'title',
+        expectedMessage: 'タイトルは191文字以内で入力してください',
       },
       {
         label: 'descriptionがundefinedの場合は拒否する',
         payload: { ...validPayload, description: undefined },
-        expectedMessage: {
-          description: ['説明は文字列で入力してください'],
-        },
+        expectedProperty: 'description',
+        expectedMessage: '説明は文字列で入力してください',
       },
       {
         label: 'descriptionがnullの場合は拒否する',
         payload: { ...validPayload, description: null },
-        expectedMessage: {
-          description: ['説明は文字列で入力してください'],
-        },
+        expectedProperty: 'description',
+        expectedMessage: '説明は文字列で入力してください',
       },
       {
         label: 'descriptionが空文字の場合は拒否する',
         payload: { ...validPayload, description: '' },
-        expectedMessage: {
-          description: ['説明は1文字以上で入力してください'],
-        },
+        expectedProperty: 'description',
+        expectedMessage: '説明は1文字以上で入力してください',
       },
       {
         label: 'descriptionが191文字を超える文字列の場合は拒否する',
         payload: { ...validPayload, description: 'a'.repeat(192) },
-        expectedMessage: {
-          description: ['説明は191文字以内で入力してください'],
-        },
+        expectedProperty: 'description',
+        expectedMessage: '説明は191文字以内で入力してください',
       },
       {
         label: 'dueDateが不正な日付文字列の場合は拒否する',
         payload: { ...validPayload, dueDate: 'not-a-date' },
-        expectedMessage: { dueDate: ['期限日は有効な日付を入力してください'] },
+        expectedProperty: 'dueDate',
+        expectedMessage: '期限は有効な日付を入力してください',
       },
-    ])('$label', async ({ payload, expectedMessage }) => {
+    ])('$label', async ({ payload, expectedProperty, expectedMessage }) => {
       const response = await request(app.getHttpServer())
         .post('/todos')
         .send(payload)
@@ -264,7 +265,7 @@ describe('TodoのE2Eテスト', () => {
       expect(response.body).toEqual({
         type: 'validation_error',
         statusCode: 400,
-        message: expectedMessage,
+        message: { [expectedProperty]: { messages: [expectedMessage] } },
         error: 'Bad Request',
       });
     });
@@ -393,57 +394,58 @@ describe('TodoのE2Eテスト', () => {
       {
         label: 'titleがundefinedの場合は拒否する',
         payload: { ...validPayload, title: undefined },
-        expectedMessage: { title: ['タイトルは文字列で入力してください'] },
+        expectedProperty: 'title',
+        expectedMessage: 'タイトルは文字列で入力してください',
       },
       {
         label: 'titleがnullの場合は拒否する',
         payload: { ...validPayload, title: null },
-        expectedMessage: { title: ['タイトルは文字列で入力してください'] },
+        expectedProperty: 'title',
+        expectedMessage: 'タイトルは文字列で入力してください',
       },
       {
         label: 'titleが空文字の場合は拒否する',
         payload: { ...validPayload, title: '' },
-        expectedMessage: { title: ['タイトルは1文字以上で入力してください'] },
+        expectedProperty: 'title',
+        expectedMessage: 'タイトルは1文字以上で入力してください',
       },
       {
         label: 'titleが191文字を超える文字列の場合は拒否する',
         payload: { ...validPayload, title: 'a'.repeat(192) },
-        expectedMessage: { title: ['タイトルは191文字以内で入力してください'] },
+        expectedProperty: 'title',
+        expectedMessage: 'タイトルは191文字以内で入力してください',
       },
       {
         label: 'descriptionがundefinedの場合は拒否する',
         payload: { ...validPayload, description: undefined },
-        expectedMessage: {
-          description: ['説明は文字列で入力してください'],
-        },
+        expectedProperty: 'description',
+        expectedMessage: '説明は文字列で入力してください',
       },
       {
         label: 'descriptionがnullの場合は拒否する',
         payload: { ...validPayload, description: null },
-        expectedMessage: {
-          description: ['説明は文字列で入力してください'],
-        },
+        expectedProperty: 'description',
+        expectedMessage: '説明は文字列で入力してください',
       },
       {
         label: 'descriptionが空文字の場合は拒否する',
         payload: { ...validPayload, description: '' },
-        expectedMessage: {
-          description: ['説明は1文字以上で入力してください'],
-        },
+        expectedProperty: 'description',
+        expectedMessage: '説明は1文字以上で入力してください',
       },
       {
         label: 'descriptionが191文字を超える文字列の場合は拒否する',
         payload: { ...validPayload, description: 'a'.repeat(192) },
-        expectedMessage: {
-          description: ['説明は191文字以内で入力してください'],
-        },
+        expectedProperty: 'description',
+        expectedMessage: '説明は191文字以内で入力してください',
       },
       {
         label: 'dueDateが不正な日付文字列の場合は拒否する',
         payload: { ...validPayload, dueDate: 'not-a-date' },
-        expectedMessage: { dueDate: ['期限日は有効な日付を入力してください'] },
+        expectedProperty: 'dueDate',
+        expectedMessage: '期限は有効な日付を入力してください',
       },
-    ])('$label', async ({ payload, expectedMessage }) => {
+    ])('$label', async ({ payload, expectedProperty, expectedMessage }) => {
       const response = await request(app.getHttpServer())
         .put('/todos/999999')
         .send(payload)
@@ -452,7 +454,7 @@ describe('TodoのE2Eテスト', () => {
       expect(response.body).toEqual({
         type: 'validation_error',
         statusCode: 400,
-        message: expectedMessage,
+        message: { [expectedProperty]: { messages: [expectedMessage] } },
         error: 'Bad Request',
       });
     });

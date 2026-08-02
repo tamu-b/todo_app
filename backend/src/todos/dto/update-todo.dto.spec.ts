@@ -13,7 +13,7 @@ describe('UpdateTodoDto', () => {
   describe('有効な入力の場合', () => {
     it.each([
       {
-        label: 'dueDateを指定した場合、dueDateにマッピングされる',
+        label: 'dueDateを指定した場合、Dateに変換される',
         payload: validPayload,
         expected: {
           title: 'title',
@@ -130,7 +130,7 @@ describe('UpdateTodoDto', () => {
           title: '',
         },
         errorProperty: 'title',
-        errorConstraint: 'isLength',
+        errorConstraint: 'minLength',
       },
       {
         label: 'titleが191文字を超える文字列の場合は拒否する',
@@ -139,7 +139,7 @@ describe('UpdateTodoDto', () => {
           title: 'a'.repeat(192),
         },
         errorProperty: 'title',
-        errorConstraint: 'isLength',
+        errorConstraint: 'maxLength',
       },
       {
         label: 'descriptionがundefinedの場合は拒否する',
@@ -166,7 +166,7 @@ describe('UpdateTodoDto', () => {
           description: '',
         },
         errorProperty: 'description',
-        errorConstraint: 'isLength',
+        errorConstraint: 'minLength',
       },
       {
         label: 'descriptionが191文字を超える文字列の場合は拒否する',
@@ -175,7 +175,7 @@ describe('UpdateTodoDto', () => {
           description: 'a'.repeat(192),
         },
         errorProperty: 'description',
-        errorConstraint: 'isLength',
+        errorConstraint: 'maxLength',
       },
       {
         label: 'dueDateが不正な日付文字列の場合は拒否する',
