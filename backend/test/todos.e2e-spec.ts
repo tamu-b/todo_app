@@ -10,7 +10,7 @@ type TodoResponseBody = {
   id: number;
   title: string;
   description: string;
-  due_date: string | null;
+  dueDate: string | null;
 };
 
 describe('TodoのE2Eテスト', () => {
@@ -43,7 +43,7 @@ describe('TodoのE2Eテスト', () => {
       .send({
         title: 'Buy milk',
         description: 'Whole milk, 1L',
-        due_date: '2026-01-01',
+        dueDate: '2026-01-01',
       })
       .expect(201);
 
@@ -52,7 +52,7 @@ describe('TodoのE2Eテスト', () => {
       id: expect.any(Number) as number,
       title: 'Buy milk',
       description: 'Whole milk, 1L',
-      due_date: '2026-01-01',
+      dueDate: '2026-01-01',
     });
     const id = created.id;
 
@@ -73,7 +73,7 @@ describe('TodoのE2Eテスト', () => {
       .send({
         title: 'Buy oat milk',
         description: 'Unsweetened, 1L',
-        due_date: '2026-02-01',
+        dueDate: '2026-02-01',
       })
       .expect(200);
 
@@ -82,7 +82,7 @@ describe('TodoのE2Eテスト', () => {
       id,
       title: 'Buy oat milk',
       description: 'Unsweetened, 1L',
-      due_date: '2026-02-01',
+      dueDate: '2026-02-01',
     });
 
     await request(app.getHttpServer())
@@ -100,35 +100,35 @@ describe('TodoのE2Eテスト', () => {
     const validPayload = {
       title: 'title',
       description: 'description',
-      due_date: '2026-01-01',
+      dueDate: '2026-01-01',
     };
 
     it.each([
       {
-        label: 'due_dateを指定した場合、そのまま作成される',
+        label: 'dueDateを指定した場合、そのまま作成される',
         payload: validPayload,
         expected: {
           title: 'title',
           description: 'description',
-          due_date: '2026-01-01',
+          dueDate: '2026-01-01',
         },
       },
       {
-        label: 'due_dateがundefinedの場合、nullとして作成される',
+        label: 'dueDateがundefinedの場合、nullとして作成される',
         payload: { title: 'title', description: 'description' },
         expected: {
           title: 'title',
           description: 'description',
-          due_date: null,
+          dueDate: null,
         },
       },
       {
-        label: 'due_dateがnullの場合、nullとして作成される',
-        payload: { title: 'title', description: 'description', due_date: null },
+        label: 'dueDateがnullの場合、nullとして作成される',
+        payload: { title: 'title', description: 'description', dueDate: null },
         expected: {
           title: 'title',
           description: 'description',
-          due_date: null,
+          dueDate: null,
         },
       },
       {
@@ -137,7 +137,7 @@ describe('TodoのE2Eテスト', () => {
         expected: {
           title: 'a',
           description: 'description',
-          due_date: '2026-01-01',
+          dueDate: '2026-01-01',
         },
       },
       {
@@ -146,7 +146,7 @@ describe('TodoのE2Eテスト', () => {
         expected: {
           title: 'a'.repeat(191),
           description: 'description',
-          due_date: '2026-01-01',
+          dueDate: '2026-01-01',
         },
       },
       {
@@ -155,13 +155,13 @@ describe('TodoのE2Eテスト', () => {
         expected: {
           title: 'あ'.repeat(191),
           description: 'description',
-          due_date: '2026-01-01',
+          dueDate: '2026-01-01',
         },
       },
       {
         label: 'descriptionが1文字でも作成できる',
         payload: { ...validPayload, description: 'a' },
-        expected: { title: 'title', description: 'a', due_date: '2026-01-01' },
+        expected: { title: 'title', description: 'a', dueDate: '2026-01-01' },
       },
       {
         label: 'descriptionが191文字でも作成できる',
@@ -169,7 +169,7 @@ describe('TodoのE2Eテスト', () => {
         expected: {
           title: 'title',
           description: 'a'.repeat(191),
-          due_date: '2026-01-01',
+          dueDate: '2026-01-01',
         },
       },
       {
@@ -178,7 +178,7 @@ describe('TodoのE2Eテスト', () => {
         expected: {
           title: 'title',
           description: 'あ'.repeat(191),
-          due_date: '2026-01-01',
+          dueDate: '2026-01-01',
         },
       },
     ])('$label', async ({ payload, expected }) => {
@@ -198,64 +198,74 @@ describe('TodoのE2Eテスト', () => {
     const validPayload = {
       title: 'title',
       description: 'description',
-      due_date: '2026-01-01',
+      dueDate: '2026-01-01',
     };
 
     it.each([
       {
         label: 'titleがundefinedの場合は拒否する',
         payload: { ...validPayload, title: undefined },
-        expectedMessage: 'titleは文字列で入力してください',
+        expectedProperty: 'title',
+        expectedMessage: 'タイトルは文字列で入力してください',
       },
       {
         label: 'titleがnullの場合は拒否する',
         payload: { ...validPayload, title: null },
-        expectedMessage: 'titleは文字列で入力してください',
+        expectedProperty: 'title',
+        expectedMessage: 'タイトルは文字列で入力してください',
       },
       {
         label: 'titleが空文字の場合は拒否する',
         payload: { ...validPayload, title: '' },
-        expectedMessage: 'titleは1文字以上で入力してください',
+        expectedProperty: 'title',
+        expectedMessage: 'タイトルは1文字以上で入力してください',
       },
       {
         label: 'titleが191文字を超える文字列の場合は拒否する',
         payload: { ...validPayload, title: 'a'.repeat(192) },
-        expectedMessage: 'titleは191文字以内で入力してください',
+        expectedProperty: 'title',
+        expectedMessage: 'タイトルは191文字以内で入力してください',
       },
       {
         label: 'descriptionがundefinedの場合は拒否する',
         payload: { ...validPayload, description: undefined },
-        expectedMessage: 'descriptionは文字列で入力してください',
+        expectedProperty: 'description',
+        expectedMessage: '説明は文字列で入力してください',
       },
       {
         label: 'descriptionがnullの場合は拒否する',
         payload: { ...validPayload, description: null },
-        expectedMessage: 'descriptionは文字列で入力してください',
+        expectedProperty: 'description',
+        expectedMessage: '説明は文字列で入力してください',
       },
       {
         label: 'descriptionが空文字の場合は拒否する',
         payload: { ...validPayload, description: '' },
-        expectedMessage: 'descriptionは1文字以上で入力してください',
+        expectedProperty: 'description',
+        expectedMessage: '説明は1文字以上で入力してください',
       },
       {
         label: 'descriptionが191文字を超える文字列の場合は拒否する',
         payload: { ...validPayload, description: 'a'.repeat(192) },
-        expectedMessage: 'descriptionは191文字以内で入力してください',
+        expectedProperty: 'description',
+        expectedMessage: '説明は191文字以内で入力してください',
       },
       {
-        label: 'due_dateが不正な日付文字列の場合は拒否する',
-        payload: { ...validPayload, due_date: 'not-a-date' },
-        expectedMessage: 'dueDateは有効な日付を入力してください',
+        label: 'dueDateが不正な日付文字列の場合は拒否する',
+        payload: { ...validPayload, dueDate: 'not-a-date' },
+        expectedProperty: 'dueDate',
+        expectedMessage: '期限は有効な日付を入力してください',
       },
-    ])('$label', async ({ payload, expectedMessage }) => {
+    ])('$label', async ({ payload, expectedProperty, expectedMessage }) => {
       const response = await request(app.getHttpServer())
         .post('/todos')
         .send(payload)
         .expect(400);
 
       expect(response.body).toEqual({
+        type: 'validation_error',
         statusCode: 400,
-        message: [expectedMessage],
+        message: { [expectedProperty]: { messages: [expectedMessage] } },
         error: 'Bad Request',
       });
     });
@@ -265,7 +275,7 @@ describe('TodoのE2Eテスト', () => {
     const validPayload = {
       title: 'title',
       description: 'description',
-      due_date: '2026-01-01',
+      dueDate: '2026-01-01',
     };
 
     const createTodo = async (): Promise<number> => {
@@ -274,7 +284,7 @@ describe('TodoのE2Eテスト', () => {
         .send({
           title: 'original title',
           description: 'original description',
-          due_date: '2020-01-01',
+          dueDate: '2020-01-01',
         })
         .expect(201);
       return (response.body as TodoResponseBody).id;
@@ -282,30 +292,30 @@ describe('TodoのE2Eテスト', () => {
 
     it.each([
       {
-        label: 'due_dateを指定した場合、そのまま更新される',
+        label: 'dueDateを指定した場合、そのまま更新される',
         payload: validPayload,
         expected: {
           title: 'title',
           description: 'description',
-          due_date: '2026-01-01',
+          dueDate: '2026-01-01',
         },
       },
       {
-        label: 'due_dateがundefinedの場合、nullとして更新される',
+        label: 'dueDateがundefinedの場合、nullとして更新される',
         payload: { title: 'title', description: 'description' },
         expected: {
           title: 'title',
           description: 'description',
-          due_date: null,
+          dueDate: null,
         },
       },
       {
-        label: 'due_dateがnullの場合、nullとして更新される',
-        payload: { title: 'title', description: 'description', due_date: null },
+        label: 'dueDateがnullの場合、nullとして更新される',
+        payload: { title: 'title', description: 'description', dueDate: null },
         expected: {
           title: 'title',
           description: 'description',
-          due_date: null,
+          dueDate: null,
         },
       },
       {
@@ -314,7 +324,7 @@ describe('TodoのE2Eテスト', () => {
         expected: {
           title: 'a',
           description: 'description',
-          due_date: '2026-01-01',
+          dueDate: '2026-01-01',
         },
       },
       {
@@ -323,7 +333,7 @@ describe('TodoのE2Eテスト', () => {
         expected: {
           title: 'a'.repeat(191),
           description: 'description',
-          due_date: '2026-01-01',
+          dueDate: '2026-01-01',
         },
       },
       {
@@ -332,13 +342,13 @@ describe('TodoのE2Eテスト', () => {
         expected: {
           title: 'あ'.repeat(191),
           description: 'description',
-          due_date: '2026-01-01',
+          dueDate: '2026-01-01',
         },
       },
       {
         label: 'descriptionが1文字でも更新できる',
         payload: { ...validPayload, description: 'a' },
-        expected: { title: 'title', description: 'a', due_date: '2026-01-01' },
+        expected: { title: 'title', description: 'a', dueDate: '2026-01-01' },
       },
       {
         label: 'descriptionが191文字でも更新できる',
@@ -346,7 +356,7 @@ describe('TodoのE2Eテスト', () => {
         expected: {
           title: 'title',
           description: 'a'.repeat(191),
-          due_date: '2026-01-01',
+          dueDate: '2026-01-01',
         },
       },
       {
@@ -355,7 +365,7 @@ describe('TodoのE2Eテスト', () => {
         expected: {
           title: 'title',
           description: 'あ'.repeat(191),
-          due_date: '2026-01-01',
+          dueDate: '2026-01-01',
         },
       },
     ])('$label', async ({ payload, expected }) => {
@@ -377,64 +387,74 @@ describe('TodoのE2Eテスト', () => {
     const validPayload = {
       title: 'title',
       description: 'description',
-      due_date: '2026-01-01',
+      dueDate: '2026-01-01',
     };
 
     it.each([
       {
         label: 'titleがundefinedの場合は拒否する',
         payload: { ...validPayload, title: undefined },
-        expectedMessage: 'titleは文字列で入力してください',
+        expectedProperty: 'title',
+        expectedMessage: 'タイトルは文字列で入力してください',
       },
       {
         label: 'titleがnullの場合は拒否する',
         payload: { ...validPayload, title: null },
-        expectedMessage: 'titleは文字列で入力してください',
+        expectedProperty: 'title',
+        expectedMessage: 'タイトルは文字列で入力してください',
       },
       {
         label: 'titleが空文字の場合は拒否する',
         payload: { ...validPayload, title: '' },
-        expectedMessage: 'titleは1文字以上で入力してください',
+        expectedProperty: 'title',
+        expectedMessage: 'タイトルは1文字以上で入力してください',
       },
       {
         label: 'titleが191文字を超える文字列の場合は拒否する',
         payload: { ...validPayload, title: 'a'.repeat(192) },
-        expectedMessage: 'titleは191文字以内で入力してください',
+        expectedProperty: 'title',
+        expectedMessage: 'タイトルは191文字以内で入力してください',
       },
       {
         label: 'descriptionがundefinedの場合は拒否する',
         payload: { ...validPayload, description: undefined },
-        expectedMessage: 'descriptionは文字列で入力してください',
+        expectedProperty: 'description',
+        expectedMessage: '説明は文字列で入力してください',
       },
       {
         label: 'descriptionがnullの場合は拒否する',
         payload: { ...validPayload, description: null },
-        expectedMessage: 'descriptionは文字列で入力してください',
+        expectedProperty: 'description',
+        expectedMessage: '説明は文字列で入力してください',
       },
       {
         label: 'descriptionが空文字の場合は拒否する',
         payload: { ...validPayload, description: '' },
-        expectedMessage: 'descriptionは1文字以上で入力してください',
+        expectedProperty: 'description',
+        expectedMessage: '説明は1文字以上で入力してください',
       },
       {
         label: 'descriptionが191文字を超える文字列の場合は拒否する',
         payload: { ...validPayload, description: 'a'.repeat(192) },
-        expectedMessage: 'descriptionは191文字以内で入力してください',
+        expectedProperty: 'description',
+        expectedMessage: '説明は191文字以内で入力してください',
       },
       {
-        label: 'due_dateが不正な日付文字列の場合は拒否する',
-        payload: { ...validPayload, due_date: 'not-a-date' },
-        expectedMessage: 'dueDateは有効な日付を入力してください',
+        label: 'dueDateが不正な日付文字列の場合は拒否する',
+        payload: { ...validPayload, dueDate: 'not-a-date' },
+        expectedProperty: 'dueDate',
+        expectedMessage: '期限は有効な日付を入力してください',
       },
-    ])('$label', async ({ payload, expectedMessage }) => {
+    ])('$label', async ({ payload, expectedProperty, expectedMessage }) => {
       const response = await request(app.getHttpServer())
         .put('/todos/999999')
         .send(payload)
         .expect(400);
 
       expect(response.body).toEqual({
+        type: 'validation_error',
         statusCode: 400,
-        message: [expectedMessage],
+        message: { [expectedProperty]: { messages: [expectedMessage] } },
         error: 'Bad Request',
       });
     });
