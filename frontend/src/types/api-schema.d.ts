@@ -59,34 +59,30 @@ export interface components {
             /** Format: date */
             dueDate?: string | null;
         };
-        ErrorResponse: {
-            statusCode: number;
-            message: string;
-            error: string;
-        };
         ValidationErrorResponse: {
             /** @enum {string} */
-            type?: "validation_error";
-            statusCode: number;
+            type: "validation_error";
+            /** @enum {integer} */
+            statusCode: 400;
             error: string;
         };
+        ValidationMessageNode: {
+            messages: string[];
+        };
         NotFoundErrorResponse: {
-            statusCode: number;
+            /** @enum {integer} */
+            statusCode: 404;
+            message: string;
+            error: string;
+        };
+        BadRequestResponse: {
+            /** @enum {integer} */
+            statusCode: 400;
             message: string;
             error: string;
         };
     };
-    responses: {
-        /** @description 予期しないエラー */
-        UnexpectedError: {
-            headers: {
-                [name: string]: unknown;
-            };
-            content: {
-                "application/json": components["schemas"]["ErrorResponse"];
-            };
-        };
-    };
+    responses: never;
     parameters: {
         TodoId: number;
     };
@@ -114,7 +110,6 @@ export interface operations {
                     "application/json": components["schemas"]["Todo"][];
                 };
             };
-            default: components["responses"]["UnexpectedError"];
         };
     };
     createTodo: {
@@ -146,15 +141,14 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["ValidationErrorResponse"] & {
-                        message?: {
-                            title?: string[];
-                            description?: string[];
-                            dueDate?: string[];
+                        message: {
+                            title?: components["schemas"]["ValidationMessageNode"];
+                            description?: components["schemas"]["ValidationMessageNode"];
+                            dueDate?: components["schemas"]["ValidationMessageNode"];
                         };
                     };
                 };
             };
-            default: components["responses"]["UnexpectedError"];
         };
     };
     getTodo: {
@@ -183,7 +177,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["ErrorResponse"];
+                    "application/json": components["schemas"]["BadRequestResponse"];
                 };
             };
             /** @description 指定したIDのTodoが存在しない */
@@ -195,7 +189,6 @@ export interface operations {
                     "application/json": components["schemas"]["NotFoundErrorResponse"];
                 };
             };
-            default: components["responses"]["UnexpectedError"];
         };
     };
     updateTodo: {
@@ -228,11 +221,11 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["ErrorResponse"] | (components["schemas"]["ValidationErrorResponse"] & {
-                        message?: {
-                            title?: string[];
-                            description?: string[];
-                            dueDate?: string[];
+                    "application/json": components["schemas"]["BadRequestResponse"] | (components["schemas"]["ValidationErrorResponse"] & {
+                        message: {
+                            title?: components["schemas"]["ValidationMessageNode"];
+                            description?: components["schemas"]["ValidationMessageNode"];
+                            dueDate?: components["schemas"]["ValidationMessageNode"];
                         };
                     });
                 };
@@ -246,7 +239,6 @@ export interface operations {
                     "application/json": components["schemas"]["NotFoundErrorResponse"];
                 };
             };
-            default: components["responses"]["UnexpectedError"];
         };
     };
     deleteTodo: {
@@ -273,7 +265,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["ErrorResponse"];
+                    "application/json": components["schemas"]["BadRequestResponse"];
                 };
             };
             /** @description 指定したIDのTodoが存在しない */
@@ -285,7 +277,6 @@ export interface operations {
                     "application/json": components["schemas"]["NotFoundErrorResponse"];
                 };
             };
-            default: components["responses"]["UnexpectedError"];
         };
     };
 }
