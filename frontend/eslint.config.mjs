@@ -41,6 +41,24 @@ const eslintConfig = defineConfig([
           destructuredArrayIgnorePattern: '^_',
         },
       ],
+      'no-restricted-imports': [
+        'error',
+        {
+          patterns: [
+            {
+              group: [
+                '../**/components/*',
+                '../**/constants/*',
+                '../**/features/*',
+                '../**/lib/*',
+                '../**/test/*',
+                '../**/types/*',
+              ],
+              message: 'Use the `@/` alias instead of a relative path.',
+            },
+          ],
+        },
+      ],
     },
   },
 ]);
