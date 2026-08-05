@@ -10,8 +10,18 @@ type Props = ButtonProps &
     children: ReactNode;
   }>;
 
-export const LinkButton: FC<Props> = ({ href, children, ...buttonProps }) => (
-  <Button component={Link} href={href} {...buttonProps}>
-    {children}
-  </Button>
-);
+export const LinkButton: FC<Props> = ({
+  href,
+  children,
+  disabled,
+  ...buttonProps
+}) =>
+  disabled ? (
+    <Button component="span" disabled {...buttonProps}>
+      {children}
+    </Button>
+  ) : (
+    <Button component={Link} href={href} {...buttonProps}>
+      {children}
+    </Button>
+  );
