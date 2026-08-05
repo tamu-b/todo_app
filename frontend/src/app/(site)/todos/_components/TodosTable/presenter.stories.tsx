@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/nextjs-vite';
 import { expect, within } from 'storybook/test';
+import { FIELD_LABELS } from '@/features/todos/field-labels';
 import { Todo } from '@/features/todos/types';
 import { TodosTablePresenter } from './presenter';
 
@@ -40,8 +41,8 @@ export const Default: Story = {
     const canvas = within(canvasElement);
 
     await expect(canvas.getByText('ID')).toBeInTheDocument();
-    await expect(canvas.getByText('タイトル')).toBeInTheDocument();
-    await expect(canvas.getByText('期限日')).toBeInTheDocument();
+    await expect(canvas.getByText(FIELD_LABELS.title)).toBeInTheDocument();
+    await expect(canvas.getByText(FIELD_LABELS.dueDate)).toBeInTheDocument();
 
     for (const todo of todos) {
       const row = canvas.getByText(todo.title).closest('tr');

@@ -2,6 +2,7 @@
 
 import { Table } from '@mantine/core';
 import { FC } from 'react';
+import { FIELD_LABELS } from '@/features/todos/field-labels';
 import { Todo } from '@/features/todos/types';
 import { LinkButton } from '../../../../../components/LinkButton';
 
@@ -36,8 +37,8 @@ export const TodosTablePresenter: FC<Props> = ({ todos }) => {
       <Table.Thead>
         <Table.Tr>
           <Table.Th w={30}>ID</Table.Th>
-          <Table.Th w={120}>タイトル</Table.Th>
-          <Table.Th w={100}>期限日</Table.Th>
+          <Table.Th w={120}>{FIELD_LABELS.title}</Table.Th>
+          <Table.Th w={100}>{FIELD_LABELS.dueDate}</Table.Th>
           <Table.Th w={80} />
         </Table.Tr>
       </Table.Thead>
