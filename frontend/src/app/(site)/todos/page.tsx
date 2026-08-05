@@ -2,6 +2,8 @@ import { Group, Title } from '@mantine/core';
 import { LinkButton } from '@/components/LinkButton';
 import { TodosTable } from './_components/TodosTable';
 
+export const dynamic = 'force-dynamic';
+
 export default function TodosPage() {
   return (
     <div>
