@@ -23,7 +23,7 @@ export const todoFormSchema = z.object({
         DESCRIPTION_MAX_LENGTH,
       ),
     ),
-  dueDate: z
+  dueDate: z.iso
     .date({ message: validationMessages.isDate(FIELD_LABELS.dueDate) })
     .nullable(),
 });
