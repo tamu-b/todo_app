@@ -21,6 +21,16 @@ const meta = {
     nextjs: {
       appDirectory: true,
     },
+    msw: {
+      handlers: {
+        createTodo: http.post(`${BACKEND_URL}/todos`, () =>
+          HttpResponse.json(todo),
+        ),
+        updateTodo: http.put(`${BACKEND_URL}/todos/:id`, () =>
+          HttpResponse.json(todo),
+        ),
+      },
+    },
   },
 } satisfies Meta<typeof TodoForm>;
 
@@ -94,13 +104,6 @@ export const CreateSuccess: Story = {
   args: {
     type: 'create',
   },
-  parameters: {
-    msw: {
-      handlers: [
-        http.post(`${BACKEND_URL}/todos`, () => HttpResponse.json(todo)),
-      ],
-    },
-  },
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
 
@@ -113,6 +116,22 @@ export const CreateSuccess: Story = {
       todo.description,
     );
     await userEvent.click(canvas.getByRole('button', { name: '作成' }));
+
+    await waitFor(() =>
+      expect(getRouter().push).toHaveBeenCalledWith(`/todos/${todo.id}`),
+    );
+  },
+};
+
+export const UpdateSuccess: Story = {
+  args: {
+    type: 'update',
+    todo,
+  },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+
+    await userEvent.click(canvas.getByRole('button', { name: '更新' }));
 
     await waitFor(() =>
       expect(getRouter().push).toHaveBeenCalledWith(`/todos/${todo.id}`),
