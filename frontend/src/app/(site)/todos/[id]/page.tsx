@@ -1,9 +1,9 @@
 import { Group, Stack, Text, Title } from '@mantine/core';
 import { notFound } from 'next/navigation';
+import { LinkButton } from '@/components/LinkButton';
 import { fetchTodo } from '@/features/todos/api';
 import { FIELD_LABELS } from '@/features/todos/field-labels';
 import { DeleteTodoButton } from '../_components/DeleteTodoButton';
-import { LinkButton } from '../../../../components/LinkButton';
 
 type Props = Readonly<{
   params: Promise<{ id: string }>;

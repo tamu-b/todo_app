@@ -1,5 +1,5 @@
 import { Group, Title } from '@mantine/core';
-import { LinkButton } from '../../../components/LinkButton';
+import { LinkButton } from '@/components/LinkButton';
 import { TodosTable } from './_components/TodosTable';
 
 export default function TodosPage() {

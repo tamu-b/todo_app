@@ -1,5 +1,5 @@
 import { Alert, Stack } from '@mantine/core';
-import { LinkButton } from '../../../../components/LinkButton';
+import { LinkButton } from '@/components/LinkButton';
 
 export default function TodoNotFound() {
   return (

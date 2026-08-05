@@ -2,9 +2,9 @@
 
 import { Table } from '@mantine/core';
 import { FC } from 'react';
+import { LinkButton } from '@/components/LinkButton';
 import { FIELD_LABELS } from '@/features/todos/field-labels';
 import { Todo } from '@/features/todos/types';
-import { LinkButton } from '../../../../../components/LinkButton';
 
 type Props = Readonly<{
   todos: ReadonlyArray<Todo>;
