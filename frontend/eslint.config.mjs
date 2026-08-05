@@ -17,10 +17,50 @@ const eslintConfig = defineConfig([
     'out/**',
     'build/**',
     'next-env.d.ts',
+    // Storybook static build output.
+    'storybook-static/**',
+    // Auto-generated from docs/openapi.yaml via `npm run gen:api-types`.
+    'src/types/api-schema.d.ts',
   ]),
   ...storybook.configs['flat/recommended'],
   eslintPluginPrettierRecommended,
   eslintConfigPrettier,
+  {
+    rules: {
+      curly: ['error', 'all'],
+      'object-shorthand': ['error', 'always'],
+      '@typescript-eslint/no-unused-vars': [
+        'error',
+        {
+          vars: 'all',
+          varsIgnorePattern: '^_',
+          args: 'all',
+          argsIgnorePattern: '^_',
+          caughtErrors: 'all',
+          caughtErrorsIgnorePattern: '^_',
+          destructuredArrayIgnorePattern: '^_',
+        },
+      ],
+      'no-restricted-imports': [
+        'error',
+        {
+          patterns: [
+            {
+              group: [
+                '../**/components/*',
+                '../**/constants/*',
+                '../**/features/*',
+                '../**/lib/*',
+                '../**/test/*',
+                '../**/types/*',
+              ],
+              message: 'Use the `@/` alias instead of a relative path.',
+            },
+          ],
+        },
+      ],
+    },
+  },
 ]);
 
 export default eslintConfig;

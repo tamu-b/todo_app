@@ -472,6 +472,18 @@ describe('TodoのE2Eテスト', () => {
     });
   });
 
+  it('数値でないidでtodoを取得しようとすると400を返す', async () => {
+    const response = await request(app.getHttpServer())
+      .get('/todos/abc')
+      .expect(400);
+
+    expect(response.body).toEqual({
+      statusCode: 400,
+      message: 'Validation failed (numeric string is expected)',
+      error: 'Bad Request',
+    });
+  });
+
   it('存在しないtodoを更新しようとすると404を返す', async () => {
     const response = await request(app.getHttpServer())
       .put('/todos/999999')
@@ -485,6 +497,19 @@ describe('TodoのE2Eテスト', () => {
     });
   });
 
+  it('数値でないidでtodoを更新しようとすると400を返す', async () => {
+    const response = await request(app.getHttpServer())
+      .put('/todos/abc')
+      .send({ title: 'title', description: 'description' })
+      .expect(400);
+
+    expect(response.body).toEqual({
+      statusCode: 400,
+      message: 'Validation failed (numeric string is expected)',
+      error: 'Bad Request',
+    });
+  });
+
   it('存在しないtodoを削除しようとすると404を返す', async () => {
     const response = await request(app.getHttpServer())
       .delete('/todos/999999')
@@ -494,6 +519,18 @@ describe('TodoのE2Eテスト', () => {
       statusCode: 404,
       message: 'Todo with id 999999 not found',
       error: 'Not Found',
+    });
+  });
+
+  it('数値でないidでtodoを削除しようとすると400を返す', async () => {
+    const response = await request(app.getHttpServer())
+      .delete('/todos/abc')
+      .expect(400);
+
+    expect(response.body).toEqual({
+      statusCode: 400,
+      message: 'Validation failed (numeric string is expected)',
+      error: 'Bad Request',
     });
   });
 });
