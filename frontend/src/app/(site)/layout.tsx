@@ -1,6 +1,8 @@
 'use client';
-import { AppShell, Burger, Group } from '@mantine/core';
+import { AppShell, Burger, Group, NavLink } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 
 export default function Layout({
   children,
@@ -8,6 +10,7 @@ export default function Layout({
   children: React.ReactNode;
 }>) {
   const [opened, { toggle }] = useDisclosure();
+  const pathname = usePathname();
 
   return (
     <AppShell
@@ -26,7 +29,14 @@ export default function Layout({
         </Group>
       </AppShell.Header>
 
-      <AppShell.Navbar p="md">Navbar</AppShell.Navbar>
+      <AppShell.Navbar p="md">
+        <NavLink
+          component={Link}
+          href="/todos"
+          label="Todo一覧"
+          active={pathname.startsWith('/todos')}
+        />
+      </AppShell.Navbar>
 
       <AppShell.Main>{children}</AppShell.Main>
     </AppShell>

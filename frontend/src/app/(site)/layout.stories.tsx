@@ -7,6 +7,11 @@ const meta = {
   args: {
     children: <div>Page Content</div>,
   },
+  parameters: {
+    nextjs: {
+      appDirectory: true,
+    },
+  },
 } satisfies Meta<typeof Layout>;
 
 export default meta;
@@ -22,5 +27,8 @@ export const Default: Story = {
     await expect(
       canvasElement.querySelector('.mantine-Burger-root'),
     ).toBeInTheDocument();
+
+    const link = canvas.getByRole('link', { name: 'Todo一覧' });
+    await expect(link).toHaveAttribute('href', '/todos');
   },
 };
