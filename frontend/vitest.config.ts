@@ -43,6 +43,18 @@ export default defineConfig({
           },
         },
       },
+      {
+        extends: true,
+        resolve: {
+          tsconfigPaths: true,
+        },
+        test: {
+          name: 'unit',
+          environment: 'node',
+          include: ['src/**/*.test.ts'],
+          setupFiles: ['./src/test/setup.ts'],
+        },
+      },
     ],
   },
 });
