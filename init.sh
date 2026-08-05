@@ -13,9 +13,9 @@ docker compose up -d
 echo "==> 依存パッケージをインストールしています"
 docker compose exec backend npm install
 docker compose exec frontend npm install
-echo ">= Prisma Clientを生成しています"
+echo "==> Prisma Clientを生成しています"
 docker compose exec backend npm run prisma:generate
 echo "==> DBマイグレーションを実行しています"
-docker compose exec backend npm run migrate
+docker compose exec backend npm run migrate:deploy
 
 echo "==> 初期設定が完了しました"
